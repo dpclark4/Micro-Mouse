@@ -22,3 +22,6 @@ int currentLeftPWM = 0;
 volatile int rightTicks = 0;
 volatile int leftTicks = 0;
 
+void setLeftPWM(int);
+void setRightPWM(int);
+
