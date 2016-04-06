@@ -4,8 +4,6 @@ void setupSensors() {
     pinMode(TX[i], OUTPUT);
     digitalWriteFast(TX[i], LOW);
   }
-  pinMode(diagHighPower, OUTPUT);
-  digitalWriteFast(diagHighPower, LOW);
 }
 
 void readSensors() {
@@ -18,9 +16,6 @@ void readSensors() {
 
 //Read ambient values.
         leftFrontAmbient = analogRead(RX[lf]);
-        rightFrontAmbient = analogRead(RX[rf]);
-        leftSensorAmbient = analogRead(RX[left]);
-        rightSensorAmbient = analogRead(RX[right]);
         leftMiddleAmbient = analogRead(RX[diagl]);
         rightMiddleAmbient = analogRead(RX[diagr]);
 
@@ -29,27 +24,35 @@ void readSensors() {
         leftFront = analogRead(RX[lf]) - leftFrontAmbient;
         digitalWriteFast(TX[lf],LOW);
         delayMicroseconds(60);
+
+        rightFrontAmbient = analogRead(RX[rf]);
         
         digitalWriteFast(TX[rf],HIGH);
         delayMicroseconds(80);
         rightFront = analogRead(RX[rf]) - rightFrontAmbient;
         digitalWriteFast(TX[rf],LOW);
         delayMicroseconds(60);
-
+        
+        leftSensorAmbient = analogRead(RX[left]);
+        rightSensorAmbient = analogRead(RX[right]);
         digitalWriteFast(TX[left],HIGH);
         digitalWriteFast(TX[right],HIGH);
         delayMicroseconds(80);
         rightSensor = analogRead(RX[right]) - rightSensorAmbient;
         leftSensor = analogRead(RX[left]) - leftSensorAmbient;
         delayMicroseconds(60);
+        digitalWriteFast(TX[left],LOW);
+        digitalWriteFast(TX[right],LOW);
 
+        leftMiddleAmbient = analogRead(RX[diagl]);
+        rightMiddleAmbient = analogRead(RX[diagr]);
         digitalWriteFast(TX[diagl],HIGH);
-        digitalWriteFast(diagHighPower, HIGH);
+        digitalWriteFast(TX[diagr],HIGH);
         delayMicroseconds(80);
         leftMiddle = analogRead(RX[diagl]) - leftMiddleAmbient;
         rightMiddle = analogRead(RX[diagr]) - rightMiddleAmbient;
         digitalWriteFast(TX[diagl], LOW);
-        digitalWriteFast(diagHighPower, LOW);  
+        digitalWriteFast(TX[diagr], LOW);
         delayMicroseconds(60); 
 }
 
