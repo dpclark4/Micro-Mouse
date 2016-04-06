@@ -1,7 +1,13 @@
 #include "Arduino.h"
 #include "Motors.h"
 #include "Sensors.h"
+<<<<<<< HEAD
+const int buttonPin = 24;
+const int LED = 11;
+IntervalTimer getValues;
+=======
 const int LED = 13;
+>>>>>>> master
 
 void setup() {
   // put your setup code here, to run once:
@@ -9,12 +15,17 @@ void setup() {
   digitalWrite(LED, HIGH);
   setupSensors();
   setupMotors();
+<<<<<<< HEAD
   getValues.begin(readSensors, 100000);
   delay(1000);
+=======
+  delay(100);
+>>>>>>> master
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+<<<<<<< HEAD
   //setLeftPWM(200);
   //setRightPWM(200);
   while(leftFront < 2500 && rightFront < 2500) {
@@ -30,4 +41,10 @@ void loop() {
     setRightPWM(-100);
   }
   
+=======
+  setLeftPWM(-200);
+  setRightPWM(-200);
+//Serial.println(rightTicks);
+  delay(50);
+>>>>>>> master
 }

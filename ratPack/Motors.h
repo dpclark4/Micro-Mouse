@@ -1,13 +1,13 @@
 #pragma once
 
-const int ML1 = 20;
-const int ML2 = 6;
-const int MR1 = 21;
-const int MR2 = 5;
-const int ER1 = 8;
-const int ER2 = 7;
-const int EL1 = 26;
-const int EL2 = 31;
+const int ML1 = 6;
+const int ML2 = 5;
+const int MR1 = 9;
+const int MR2 = 10;
+const int ER1 = 14;
+const int ER2 = 12;
+const int EL1 = 15;
+const int EL2 = 16;
 
 // Motor Pins
 const int motorPins[] = {MR1, MR2, ML1, ML2};
