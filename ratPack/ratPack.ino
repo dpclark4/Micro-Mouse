@@ -14,6 +14,7 @@ void setup() {
   timer.begin(calculations, 1000);
   Serial.begin(115200);
   delay(2000);
+  turnRight();
 }
 int totalError = 0;
 int oldError = 0;
@@ -45,7 +46,7 @@ void makeLeftTurn() {
     }
 }
 void loop() {
-
+/*
   while(leftFront < 1500 && rightFront < 1500) {
      moveForward();
   }
@@ -61,6 +62,7 @@ void loop() {
   leftTicks = 0;
   makeLeftTurn();
   setSpeed(0,0);
+*/
 
   /*
   while (rightTicks < 250) {

@@ -19,7 +19,7 @@ void setupMotors() {
 }
 
 void setLeftPWM(int value) {
-  if (value > 300 || value < -300) {
+  if (value > 400 || value < -400) {
     ;
   }
   
