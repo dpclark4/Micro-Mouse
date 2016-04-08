@@ -4,6 +4,8 @@ void setupSensors() {
     pinMode(TX[i], OUTPUT);
     digitalWriteFast(TX[i], LOW);
   }
+  analogReadResolution(12);
+  analogReadAveraging(4);
 }
 
 void readSensors() {
