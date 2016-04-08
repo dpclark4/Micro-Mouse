@@ -19,7 +19,11 @@ void setupMotors() {
 }
 
 void setLeftPWM(int value) {
-  if (value >= 0) {
+  if (value > 300 || value < -300) {
+    ;
+  }
+  
+  else if (value >= 0) {
     analogWrite(ML1, value);
     digitalWrite(ML2, LOW);
   }
@@ -35,7 +39,10 @@ void setLeftPWM(int value) {
 }
 
 void setRightPWM(int value) {
-  if (value >= 0) {
+  if (value > 300 || value < -300) {
+    ;
+  }
+  else if (value >= 0) {
     analogWrite(MR1, value);
     digitalWrite(MR2, LOW);
   }
