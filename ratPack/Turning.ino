@@ -1,36 +1,39 @@
 void turnRight(){
-  int startAngle = angle;
-  //do until gyroscope reads 90
-  do
-  {  //make left wheels turn
-      setLeftPWM(350);
-      //right wheels backward
-<<<<<<< HEAD
-      setRightPWM(-350);
-=======
-      setRightPWM(-150);
->>>>>>> origin/master
-  }while (angle < (90+startAngle));
+  leftTicks = 0;
+  rightTicks = 0;
+  int LPWM = 300;
+  int RPWM = -100;
+  while (leftTicks < 145){
+    setRightPWM(RPWM);
+    setLeftPWM(LPWM);
+  }
+  while (RPWM < 0){
+    LPWM = LPWM - 80;
+    RPWM = RPWM + 50;
+    setRightPWM(RPWM);
+    setLeftPWM(LPWM);
+  }
   setLeftPWM(0);
   setRightPWM(0);
   digitalWrite(LED, LOW);
 }
 
 void turnLeft(){
-  int startAngle = angle;
-  //do until gyroscope reads 90
-  do
-  {   //make right wheels turn
-<<<<<<< HEAD
-      setRightPWM(200); 
-      //left wheels backward
-      setLeftPWM(-200);
-=======
-      setRightPWM(150) ;
-      //left wheels backward
-      setLeftPWM(-150);
->>>>>>> origin/master
-  }while (angle > (startAngle-90));
+  leftTicks = 0;
+  rightTicks = 0;
+  int RPWM = 300;
+  int LPWM = -100;
+  while (rightTicks < 145){
+    setRightPWM(RPWM);
+    setLeftPWM(LPWM);
+  }
+  while (RPWM < 0){
+    LPWM = LPWM + 50;
+    RPWM = RPWM - 80;
+    setRightPWM(RPWM);
+    setLeftPWM(LPWM);
+  }
   setLeftPWM(0);
   setRightPWM(0);
+  digitalWrite(LED, LOW);
 }
