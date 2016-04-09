@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "Motors.h"
 #include "Sensors.h"
+
 const int LED = 13;
 IntervalTimer timer;
 
@@ -23,7 +24,7 @@ void calculations() {
   readSensors();
   int error = rightSensor - leftSensor;
   errorD = error - oldError; 
-  totalError = (error * 1 + .5 * errorD)/100;
+  totalError = (error * 1 + .5 * errorD)/150;
   Serial.println(totalError);
   oldError = error;
 }
