@@ -46,13 +46,13 @@ void readSensors() {
         digitalWriteFast(TX[left],LOW);
         digitalWriteFast(TX[right],LOW);
 
-        leftMiddleAmbient = analogRead(RX[diagl]);
-        rightMiddleAmbient = analogRead(RX[diagr]);
+        //leftMiddleAmbient = analogRead(RX[diagl]);
+        //rightMiddleAmbient = analogRead(RX[diagr]);
         digitalWriteFast(TX[diagl],HIGH);
         digitalWriteFast(TX[diagr],HIGH);
         delayMicroseconds(80);
-        leftMiddle = analogRead(RX[diagl]) - leftMiddleAmbient;
-        rightMiddle = analogRead(RX[diagr]) - rightMiddleAmbient;
+        leftMiddle = analogRead(RX[diagl]);// - leftMiddleAmbient;
+        rightMiddle = analogRead(RX[diagr]);// - rightMiddleAmbient;
         digitalWriteFast(TX[diagl], LOW);
         digitalWriteFast(TX[diagr], LOW);
         delayMicroseconds(60); 
