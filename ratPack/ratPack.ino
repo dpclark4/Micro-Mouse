@@ -15,23 +15,22 @@ void setup() {
   timer.begin(calculations, 1000);
   Serial.begin(115200);
   delay(2000);
-  turnRight();
+  //turnRight();
 }
 int totalError = 0;
 int oldError = 0;
 int errorD = 0;
 void calculations() {
   readSensors();
-  int error = rightSensor - leftSensor;
-  errorD = error - oldError; 
-  totalError = (error * 1 + .5 * errorD)/150;
-  Serial.println(totalError);
+  int error = (leftMiddle - rightMiddle)/10 + 80;
+  //errorD = error - oldError; 
+  //totalError = ((error * 3 + .5 * errorD)*3)/150;
+  int sideError = (leftSensor - rightSensor)/100;
+  Serial.println(sideError);
+  setSpeed(150 + error, 150 - error);
   oldError = error;
 }
-void moveForward() {
-    setLeftPWM(150 - totalError);
-    setRightPWM(150 + totalError);
-}
+
 void setSpeed(int l, int r){
   setLeftPWM(l);
   setRightPWM(r);
@@ -47,9 +46,8 @@ void makeLeftTurn() {
     }
 }
 void loop() {
-/*
-  while(leftFront < 1500 && rightFront < 1500) {
-     moveForward();
+  while(leftFront < 900 && rightFront < 900) {
+     //moveForward();
   }
   setSpeed(0,0);
 
@@ -63,7 +61,6 @@ void loop() {
   leftTicks = 0;
   makeLeftTurn();
   setSpeed(0,0);
-*/
 
   /*
   while (rightTicks < 250) {
