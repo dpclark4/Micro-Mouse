@@ -24,11 +24,13 @@ int rightSpeed = 0;
 int totalError = 0;
 int oldError = 0;
 int errorD = 0;
+
 void calculations() {
   readSensors();
-  isRightWall = rightSensor > 350;
-  //isRightWall = rightMiddle > 800;
-  isLeftWall = leftSensor > 350;
+  //isRightWall = rightSensor > 350;
+  isRightWall = rightMiddle > 1000;
+  isLeftWall = leftMiddle > 1000;
+  //isLeftWall = leftSensor > 350;
   int error = (leftMiddle - rightMiddle)/10 + 60;
   int sideError = (leftSensor - rightSensor)/100;
   Serial.println(rightMiddle);
@@ -37,8 +39,6 @@ void calculations() {
   else {
     totalError = 0;
   }
-
-  //setSpeed(150 + error, 150 - error);
   oldError = error;
 }
 
@@ -64,25 +64,37 @@ void makeLeftTurn() {
 }
 
 void slowDown() {
+
+  int i = 1000000;
   while(leftSpeed > 0 || rightSpeed > 0){
     if (leftSpeed <= 0 || rightSpeed <= 0){
       setSpeed(0,0);
       break;
     }
-    leftSpeed -= 1;
-    rightSpeed -=1;
+    if(i-- % 7 == 0 || i == 0){
+      leftSpeed -= 1;
+      rightSpeed -= 1;
+    }
     setSpeed(leftSpeed, rightSpeed);
   }
-  setSpeed(0,0);
+  analogWrite(MR1, 2047);
+  analogWrite(MR2, 2047);
+  analogWrite(ML1, 2047);
+  analogWrite(ML2, 2047);
 }
 void loop() {
   //while(leftFront < 1100 && rightFront < 1100) {
   //   moveForward();
   //}
-  while (isRightWall)
+  //setSpeed(-150,-150);
+  
+  while (isRightWall){ 
     moveForward();
+  }
   //digitalWrite(LED, LOW);  
   slowDown();
+  //setSpeed(0, 0);
+  //delay(1000);
   while(1);
   //setSpeed(0,0);
   //turnRight();
