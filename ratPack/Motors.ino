@@ -19,40 +19,29 @@ void setupMotors() {
 }
 
 void setLeftPWM(int value) {
-  if (value > 400 || value < -400) {
+  if (value > 600 || value < -600) {
     ;
   }
   
   else if (value >= 0) {
-    analogWrite(ML1, value);
-    digitalWrite(ML2, LOW);
-  }
-
-  else if (value == 0) {
-    digitalWrite(ML1, LOW);
-    digitalWrite(ML2, LOW);
-  }
-  else {
-    analogWrite(ML2, abs(value));
-    digitalWrite(ML1, LOW);
+    analogWrite(ML1, 2047);
+    analogWrite(ML2, 2047 - value);
+  } else {
+    analogWrite(ML2, 2047);
+    analogWrite(ML1, 2047 + value);
   }
 }
 
 void setRightPWM(int value) {
-  if (value > 400 || value < -400) {
+  if (value > 600 || value < -600) {
     ;
   }
   else if (value >= 0) {
-    analogWrite(MR1, value);
-    digitalWrite(MR2, LOW);
-  }
-  else if (value == 0) {
-    digitalWrite(MR1, LOW);
-    digitalWrite(MR2, LOW);
-  }
-  else {
-    analogWrite(MR2, abs(value));
-    digitalWrite(MR1, LOW);
+    analogWrite(MR1, 2047);
+    analogWrite(MR2, 2047 - value);
+  } else {
+    analogWrite(MR2, 2047);
+    analogWrite(MR1, 2047 + value);
   }
 }
 // Right Encoder ISR
@@ -94,3 +83,4 @@ void leftEncoder2() {
     leftTicks--;
   }
 }
+
