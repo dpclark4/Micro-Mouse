@@ -28,12 +28,18 @@ int errorD = 0;
 void calculations() {
   readSensors();
   //isRightWall = rightSensor > 350;
-  isRightWall = rightMiddle > 1000;
-  isLeftWall = leftMiddle > 1000;
+  isRightWall = rightMiddle > 650;
+  isLeftWall = leftMiddle > 650;
   //isLeftWall = leftSensor > 350;
-  int error = (leftMiddle - rightMiddle)/10 + 60;
+  int error = (leftMiddle - rightMiddle)/10 + 90;
   int sideError = (leftSensor - rightSensor)/100;
   Serial.println(rightMiddle);
+  Serial.println(leftMiddle);
+  Serial.println();
+  if (!isRightWall && leftMiddle > 1200) {
+    isRightWall = true;
+    totalError = 100;
+  }
   if (isLeftWall && isRightWall)
     totalError = error;
   else {
