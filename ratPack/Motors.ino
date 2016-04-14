@@ -39,7 +39,7 @@ void setLeftPWM(int value) {
 }
 
 void setRightPWM(int value) {
-  if (value > 300 || value < -300) {
+  if (value > 400 || value < -400) {
     ;
   }
   else if (value >= 0) {
