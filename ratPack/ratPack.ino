@@ -34,10 +34,14 @@ void calculations() {
   //isLeftWall = leftMiddle > 650;
   isRightWall = rightSensor > 350;
   isLeftWall = leftSensor > 350;
-  isFrontWall = (rightFront + leftFront)/2 > 800;
+  isFrontWall = (rightFront + leftFront)/2 > 825;
   
   int error = (leftMiddle - rightMiddle)/10 + 90;
   int sideError = (leftSensor - rightSensor)/100;
+  Serial.println(rightMiddle);
+  Serial.println(leftMiddle);
+  Serial.println();
+  /*
   Serial.print(leftError);
   Serial.print(" ");
   Serial.print(leftSensor);
@@ -48,14 +52,17 @@ void calculations() {
   Serial.print("    ");
   Serial.print(error);
   Serial.print("\n");
-  if (!isRightWall && leftMiddle > 1200) {
-    totalError = -150;
-  } else if (!isLeftWall) {
+  */
+  
+   // use this and next loop if rightWall is detected with middle
+  if (rightMiddle < 650 && leftMiddle > 1200) {
     totalError = 150;
+  } else if (leftMiddle < 650 && rightMiddle > 2200) {
+    totalError = -150;
   } else if (isLeftWall && isRightWall){
     totalError = error;
   } else {
-    totalError = 0;
+    totalError = error;
   }
   oldError = error;
 }
@@ -85,26 +92,32 @@ void slowDown() {
   }
 }
 void loop() {
-  /*while (!isFrontWall && isRightWall){ 
-    moveForward();
-  }*/
-  while (isRightWall){ 
-    moveForward();
-  }  
-  slowDown();
   
-  if(isFrontWall){// && !isRightWall){
+  while (!isFrontWall){// && isRightWall){ 
+    moveForward();
+  }
+  slowDown();
+  delay(1000);
+  turnRightInPlace();
+  forwardOneCell();
+  /*
+  moveForward();
+  if(isFrontWall) && !isRightWall){
+    slowDown();
     delay(1000);
     turnRightInPlace();
   } else if(isFrontWall){
+    slowDown();
     delay(1000);
     turnRightInPlace();
     delay(1000);
     turnRightInPlace();
   }else if(!isRightWall){
+    slowDown();
     delay(1000);
     turnRightInPlace();
     delay(500);
     forwardOneCell();
   }
+  */
 }
