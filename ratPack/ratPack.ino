@@ -30,17 +30,26 @@ int leftError = 0;
 
 void calculations() {
   readSensors();
-  //isRightWall = rightMiddle > 650;
-  //isLeftWall = leftMiddle > 650;
-  isRightWall = rightSensor > 350;
-  isLeftWall = leftSensor > 350;
+  isRightWall = rightMiddle > 650;
+  isLeftWall = leftMiddle > 650;
+  //isRightWall = rightSensor > 350;
+  //isLeftWall = leftSensor > 350;
   isFrontWall = (rightFront + leftFront)/2 > 825;
+
+  if(isFrontWall) {
+    isRightWall = rightSensor > 350;
+    isLeftWall = leftSensor > 350;
+  }
   
   int error = (leftMiddle - rightMiddle)/10 + 90;
   int sideError = (leftSensor - rightSensor)/100;
-  Serial.println(rightMiddle);
-  Serial.println(leftMiddle);
-  Serial.println();
+  //Serial.println(rightMiddle);
+  //Serial.println(leftMiddle);
+  //Serial.println()
+  Serial.print(rightTicks);
+  Serial.print(" ");
+  Serial.print(leftTicks);
+  Serial.print("\n");
   /*
   Serial.print(leftError);
   Serial.print(" ");
@@ -62,7 +71,9 @@ void calculations() {
   } else if (isLeftWall && isRightWall){
     totalError = error;
   } else {
-    totalError = error;
+    totalError = 0;
+    //setSpeed(0, 0);
+    //delay(10000);
   }
   oldError = error;
 }
@@ -74,11 +85,16 @@ void moveForward() {
 }
 
 void setSpeed(int l, int r){
+  leftSpeed = l;
+  rightSpeed = r;
   setLeftPWM(l);
   setRightPWM(r);
 }
 
 void slowDown() {
+  if (leftSpeed == 0 || rightSpeed == 0){
+    return;
+  }
   rightTicks = 0;
   leftTicks = 0;
   while(rightTicks < 150 && leftTicks < 150);
@@ -92,14 +108,27 @@ void slowDown() {
   }
 }
 void loop() {
-  
-  while (!isFrontWall){// && isRightWall){ 
+
+  if(!isRightWall) {
+    slowDown();
+    delay(1000);
+    turnRightInPlace();
+    delay(2000);
+    forwardOneCell();
+    delay(1000);
+  }
+  else if(!isLeftWall) {
+    slowDown();
+    delay(1000);
+    turnLeftInPlace();
+    delay(2000);
+    forwardOneCell();
+    delay(1000);
+  }
+  else {
     moveForward();
   }
-  slowDown();
-  delay(1000);
-  turnRightInPlace();
-  forwardOneCell();
+  
   /*
   moveForward();
   if(isFrontWall) && !isRightWall){

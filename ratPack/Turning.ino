@@ -23,7 +23,7 @@ void turnRightInPlace(){
   rightTicks = 0;
   int LPWM = 200;
   int RPWM = -200;
-  while (leftTicks < 85){
+  while (leftTicks < 83){
     setRightPWM(RPWM);
     setLeftPWM(LPWM);
   }
@@ -71,9 +71,11 @@ void forwardOneCell(){
   rightTicks = 0;
   int RPWM = 200;
   int LPWM = 200;
-  while (leftTicks < 200){
+  while (leftTicks < 265){
     setRightPWM(RPWM);
     setLeftPWM(LPWM);
   }
+  //slowDown();
+  setSpeed(0,0);
 }
 
