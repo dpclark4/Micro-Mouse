@@ -27,9 +27,13 @@ int oldError = 0;
 int errorD = 0;
 int rightError = 0;
 int leftError = 0;
+int count = 0;
+int prevTicks = 0;
+bool hasMoved = false;
 
 void calculations() {
   readSensors();
+  count++;
   isRightWall = rightMiddle > 650;
   isLeftWall = leftMiddle > 650;
   //isRightWall = rightSensor > 350;
@@ -43,7 +47,15 @@ void calculations() {
   
   int error = (leftMiddle - rightMiddle)/10 + 27;
   int sideError = (leftSensor - rightSensor)/100;
-  
+  if (count >= 2000 && rightTicks == prevTicks && hasMoved) {
+    setSpeed(0,0);
+    rightTicks = 0;
+    while (rightTicks > -15 || rightTicks < 15) {
+      setSpeed(-250, -250) ;
+    }
+    setSpeed(0,0);
+    count = 0;
+  }
    // use this and next loop if rightWall is detected with middle
   if (rightMiddle < 650 && leftMiddle > 1200) {
     totalError = 150;
@@ -56,7 +68,6 @@ void calculations() {
     //setSpeed(0, 0);
     //delay(10000);
   }
-  oldError = error;
 }
 
 void moveForward() {
@@ -70,6 +81,7 @@ void setSpeed(int l, int r){
   rightSpeed = r;
   setLeftPWM(l);
   setRightPWM(r);
+  prevTicks = rightTicks;
 }
 
 void slowDown() {
@@ -88,7 +100,6 @@ void slowDown() {
     setSpeed(0, 0);
   }
 }
-
 void loop() {
   while(!isFrontWall && isRightWall) {
     moveForward();
@@ -102,7 +113,6 @@ void loop() {
     turnRightInPlace();
   } else{
     turnAroundInPlace();
-    delay(1000);
   }
 }
 
