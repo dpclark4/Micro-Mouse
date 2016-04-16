@@ -34,34 +34,15 @@ void calculations() {
   isLeftWall = leftMiddle > 650;
   //isRightWall = rightSensor > 350;
   //isLeftWall = leftSensor > 350;
-  isFrontWall = (rightFront + leftFront)/2 > 825;
+  isFrontWall = (rightFront + leftFront)/2 > 980;
 
   if(isFrontWall) {
     isRightWall = rightSensor > 350;
     isLeftWall = leftSensor > 350;
   }
   
-  int error = (leftMiddle - rightMiddle)/10 + 90;
+  int error = (leftMiddle - rightMiddle)/10 + 27;
   int sideError = (leftSensor - rightSensor)/100;
-  //Serial.println(rightMiddle);
-  //Serial.println(leftMiddle);
-  //Serial.println()
-  Serial.print(rightTicks);
-  Serial.print(" ");
-  Serial.print(leftTicks);
-  Serial.print("\n");
-  /*
-  Serial.print(leftError);
-  Serial.print(" ");
-  Serial.print(leftSensor);
-  Serial.print("    ");
-  Serial.print(rightError);
-  Serial.print(" ");
-  Serial.print(rightSensor);
-  Serial.print("    ");
-  Serial.print(error);
-  Serial.print("\n");
-  */
   
    // use this and next loop if rightWall is detected with middle
   if (rightMiddle < 650 && leftMiddle > 1200) {
@@ -107,46 +88,21 @@ void slowDown() {
     setSpeed(0, 0);
   }
 }
-void loop() {
 
-  if(!isRightWall) {
-    slowDown();
-    delay(1000);
-    turnRightInPlace();
-    delay(2000);
-    forwardOneCell();
-    delay(1000);
-  }
-  else if(!isLeftWall) {
-    slowDown();
-    delay(1000);
-    turnLeftInPlace();
-    delay(2000);
-    forwardOneCell();
-    delay(1000);
-  }
-  else {
+void loop() {
+  while(!isFrontWall && isRightWall) {
     moveForward();
   }
-  
-  /*
-  moveForward();
-  if(isFrontWall) && !isRightWall){
-    slowDown();
-    delay(1000);
-    turnRightInPlace();
-  } else if(isFrontWall){
-    slowDown();
-    delay(1000);
-    turnRightInPlace();
-    delay(1000);
-    turnRightInPlace();
-  }else if(!isRightWall){
-    slowDown();
-    delay(1000);
-    turnRightInPlace();
-    delay(500);
-    forwardOneCell();
+  slowDown();
+  delay(1000);
+  if(!isLeftWall && leftSensor < 350){
+    turnLeftInPlace();
   }
-  */
+  else if(!isRightWall){
+    turnRightInPlace();
+  } else{
+    turnAroundInPlace();
+    delay(1000);
+  }
 }
+
