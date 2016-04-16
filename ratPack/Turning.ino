@@ -21,7 +21,7 @@ void turnRight(){
 void turnRightInPlace(){
   leftTicks = 0;
   rightTicks = 0;
-  int LPWM = 200;
+  int LPWM = 599;
   int RPWM = -200;
   while (leftTicks < 83){
     setRightPWM(RPWM);
@@ -57,7 +57,7 @@ void turnLeftInPlace(){
   rightTicks = 0;
   int RPWM = 200;
   int LPWM = -200;
-  while (leftTicks < 85){
+  while (rightTicks < 83){
     setRightPWM(RPWM);
     setLeftPWM(LPWM);
   }
@@ -65,6 +65,21 @@ void turnLeftInPlace(){
   setRightPWM(0);
   //digitalWrite(LED, LOW);
 }
+
+void turnAround(){
+  leftTicks = 0;
+  rightTicks = 0;
+  int RPWM = 200;
+  int LPWM = -200;
+  while (rightTicks < 175){
+    setRightPWM(RPWM);
+    setLeftPWM(LPWM);
+  }
+  setLeftPWM(0);
+  setRightPWM(0);
+  //digitalWrite(LED, LOW);
+}
+
 
 void forwardOneCell(){
   leftTicks = 0;

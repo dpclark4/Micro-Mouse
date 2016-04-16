@@ -27,14 +27,18 @@ int oldError = 0;
 int errorD = 0;
 int rightError = 0;
 int leftError = 0;
+int count = 0;
+int prevTicks = 0;
+bool hasMoved = false;
 
 void calculations() {
   readSensors();
+  count++;
   isRightWall = rightMiddle > 650;
   isLeftWall = leftMiddle > 650;
   //isRightWall = rightSensor > 350;
   //isLeftWall = leftSensor > 350;
-  isFrontWall = (rightFront + leftFront)/2 > 825;
+  isFrontWall = (rightFront + leftFront)/2 > 900;
 
   if(isFrontWall) {
     isRightWall = rightSensor > 350;
@@ -46,9 +50,9 @@ void calculations() {
   //Serial.println(rightMiddle);
   //Serial.println(leftMiddle);
   //Serial.println()
-  Serial.print(rightTicks);
-  Serial.print(" ");
   Serial.print(leftTicks);
+  Serial.print(" ");
+  Serial.print(rightTicks);
   Serial.print("\n");
   /*
   Serial.print(leftError);
@@ -62,7 +66,16 @@ void calculations() {
   Serial.print(error);
   Serial.print("\n");
   */
-  
+  if (count >= 2000 && rightTicks == prevTicks && hasMoved) {
+    setSpeed(0,0);
+    rightTicks = 0;
+    while (rightTicks > -15 || rightTicks < 15) {
+      setSpeed(-250, -250) ;
+    }
+    setSpeed(0,0);
+    count = 0;
+  }
+   
    // use this and next loop if rightWall is detected with middle
   if (rightMiddle < 650 && leftMiddle > 1200) {
     totalError = 150;
@@ -75,7 +88,6 @@ void calculations() {
     //setSpeed(0, 0);
     //delay(10000);
   }
-  oldError = error;
 }
 
 void moveForward() {
@@ -89,6 +101,7 @@ void setSpeed(int l, int r){
   rightSpeed = r;
   setLeftPWM(l);
   setRightPWM(r);
+  prevTicks = rightTicks;
 }
 
 void slowDown() {
@@ -109,25 +122,28 @@ void slowDown() {
 }
 void loop() {
 
-  if(!isRightWall) {
-    slowDown();
-    delay(1000);
-    turnRightInPlace();
-    delay(2000);
-    forwardOneCell();
-    delay(1000);
-  }
-  else if(!isLeftWall) {
-    slowDown();
-    delay(1000);
-    turnLeftInPlace();
-    delay(2000);
-    forwardOneCell();
-    delay(1000);
-  }
-  else {
+  while(!isFrontWall) {
     moveForward();
+    hasMoved = true;
   }
+  slowDown();
+  delay(1000);
+  if (!isRightWall) {
+    
+    turnRightInPlace();
+    
+    forwardOneCell();
+  }
+  else if (!isLeftWall) {
+    
+    turnLeftInPlace();
+    
+    forwardOneCell();
+  }
+  else if (isLeftWall && isRightWall && isFrontWall) {
+    turnAround();  
+  }
+
   
   /*
   moveForward();
